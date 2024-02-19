@@ -1,6 +1,7 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
+import { usePathname } from "next/navigation";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -13,6 +14,10 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
+
+
+
   return (
     <html lang="en" className="h-full">
       <body className={poppins.className}>

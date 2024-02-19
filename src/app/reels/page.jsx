@@ -1,6 +1,12 @@
 
+export const metadata = {
+    title: "Reels | Linkr",
+    description: "The Reels page",
+};
 
-const page = () => {
+
+const Reels = () => {
+
     return (
         <div>
             <h2>Reels page</h2>
@@ -8,4 +14,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Reels;
