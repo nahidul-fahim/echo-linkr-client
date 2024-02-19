@@ -2,22 +2,39 @@
 import Link from "next/link";
 import websiteLogo from "../../../public/websiteLogo.png"
 import Image from "next/image";
+import { Home, LogOut, Search, Videotape } from "lucide-react";
+import NavLink from "./Navlink";
+import { Button } from "../ui/button";
 
 const Navbar = () => {
 
     // create links array
     const links = [
         {
-            title: 'Home',
+            title: <p className="inline-links"><Home /> Home </p>,
             path: '/'
+        },
+        {
+            title: <p className="inline-links"><Videotape /> Reels </p>,
+            path: '/reels'
+        },
+        {
+            title: <p className="inline-links"><Search /> Search </p>,
+            path: '/search'
         },
     ]
 
 
     return (
         <div className="min-h-screen border-r-[1px] border-[#a1a1a1] py-5 px-10 flex justify-between items-start flex-col w-[250px]">
-            <div>
+            <div className="flex flex-col justify-start items-start gap-6">
                 <Link href={"/"}><Image src={websiteLogo} alt="Website logo" className="w-[100px] hover:scale-105 duration-300"></Image></Link>
+                {
+                    links.map(link => <NavLink key={link.title} item={link} />)
+                }
+            </div>
+            <div>
+                <Button className="flex justify-center items-center gap-2" variant="default">Sign out <LogOut size={20} /></Button>
             </div>
         </div>
     );
