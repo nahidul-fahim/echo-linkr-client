@@ -3,12 +3,34 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { toast } from "sonner"
 
 
 const SignIn = () => {
 
     // hooks
     const router = useRouter();
+
+    // handle sign in function
+    const handleSignIn = e => {
+        e.preventDefault();
+        // get data from the form
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        const signInInfo = { email, password };
+
+        axios.post("/api/users/signin", signInInfo)
+            .then(res => {
+                if (res.data.success) {
+                    toast(res.data.message)
+                    router.push("/")
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    };
 
 
 
@@ -21,7 +43,8 @@ const SignIn = () => {
                 <h1 className="text-2xl font-semibold text-foreground">Welcome Back!</h1>
 
                 {/* sign in form */}
-                <form className="w-full flex flex-col justify-center items-center gap-5">
+                <form onSubmit={handleSignIn}
+                    className="w-full flex flex-col justify-center items-center gap-5">
 
                     {/* Email */}
                     <input type="email" name="email" id="email" placeholder="Email address" className="border-[1px] px-4 py-2 rounded focus:outline-none focus:border-lightBlack w-2/3" />

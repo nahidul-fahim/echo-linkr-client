@@ -15,14 +15,11 @@ export async function POST(request) {
         // check if user already exists in the database
         const existingUser = await User.findOne({ email });
 
-        console.log("User already exists in the database pe po pe po", existingUser)
-
         // if user already exists in the database, send an error message
         if (existingUser) {
+            console.log("User already exists in the database pe po pe po")
             return NextResponse.json({ error: 'User already exists' }, { status: 400 })
         }
-
-        // const savedUser = await User.create(reqBody)
 
         // if existingUser is false, save the new user
         const newUser = new User({
@@ -33,7 +30,7 @@ export async function POST(request) {
         })
 
         const savedUser = await newUser.save()
-        console.log("New saved user:", savedUser);
+        console.log("Saved user data:", savedUser)
 
         return NextResponse.json({
             message: 'User created successfully!',
@@ -42,6 +39,6 @@ export async function POST(request) {
         })
     }
     catch (error) {
-        return NextResponse.json({ error: (error.message, "there was mistake vai") }, { status: 500 })
+        return NextResponse.json({ error: error }, { status: 500 })
     }
 }
