@@ -23,7 +23,7 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
-    --gray: 0 0% 22%;
+    --gray: 44 0% 36%;
     --radius: 0.5rem;
   }
 
@@ -47,7 +47,7 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-    --gray: 0 0% 66%;
+    --gray: 44 0% 56%;
   }
 }
 
@@ -60,6 +60,11 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+* {
+  scroll-behavior: smooth;
+  
 }
 
 .inline-links {
