@@ -19,16 +19,16 @@ const userSchema = new mongoose.Schema({
         required: [true, "Please provide a username"],
         unique: true,
     },
-    isVerified: {
-        type: boolean,
-        default: false,
-    },
+    // isVerified: {
+    //     type: boolean,
+    //     default: false,
+    // },
     forgotPasswordToken: String,
     forgotPasswordTokenExpiry: Date,
     verifyToken: String,
     verifyTokenExpiry: Date,
-})
+}, { collection: 'allUsers' })
 
-const User = mongoose.model("users", userSchema);
+const User = mongoose.model("User", userSchema);
 
 export default User;

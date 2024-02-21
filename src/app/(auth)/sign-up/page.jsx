@@ -11,6 +11,29 @@ const SignUp = () => {
     const router = useRouter();
 
 
+    // handle sign up function
+    const handleSignUp = e => {
+        e.preventDefault();
+        // get data from the form
+        const form = e.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const userName = form.userName.value;
+        const password = form.password.value;
+        const newUserInfo = { name, email, userName, password };
+        console.log(newUserInfo);
+
+        axios.post("/api/users/signup", newUserInfo)
+            .then(res => {
+                console.log(res.data)
+                router.push("/sign-in")
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    };
+
+
 
     return (
         <div className="container mx-auto p-5 flex flex-col justify-center items-center min-h-screen relative">
@@ -21,7 +44,8 @@ const SignUp = () => {
                 <h1 className="text-2xl font-semibold text-foreground">Unlock a World of Connections!</h1>
 
                 {/* registration form */}
-                <form className="w-full flex flex-col justify-center items-center gap-5">
+                <form onSubmit={handleSignUp}
+                 className="w-full flex flex-col justify-center items-center gap-5">
                     {/* Full name */}
                     <input type="text" name="name" id="name" placeholder="Full name" className="border-[1px] px-4 py-2 rounded focus:outline-none focus:border-lightBlack w-2/3" />
 
