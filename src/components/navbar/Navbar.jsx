@@ -6,6 +6,9 @@ import { Home, LogOut, Search, Videotape } from "lucide-react";
 import NavLink from "./Navlink";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
+import axios from 'axios';
+import { toast } from "sonner"
+
 
 const Navbar = () => {
 
@@ -29,6 +32,18 @@ const Navbar = () => {
     const pathName = usePathname();
 
 
+    // sign out the user
+    const handleSignOut = async () => {
+        await axios.get("/api/users/signout")
+            .then(res => {
+                if (res.data.success) {
+                    toast(res.data.message)
+                }
+            })
+            .catch(err => toast(err.code))
+    }
+
+
 
     // showing navbar conditionally except sign in and sign up page
     if (pathName === "/sign-in" || pathName === "/sign-up") {
@@ -44,7 +59,9 @@ const Navbar = () => {
                     }
                 </div>
                 <div>
-                    <Button className="flex justify-center items-center gap-2" variant="default">Sign out <LogOut size={20} /></Button>
+                    <Button onClick={handleSignOut}
+                        className="flex justify-center items-center gap-2" variant="default">Sign out <LogOut size={20} />
+                    </Button>
                 </div>
             </div>
         );

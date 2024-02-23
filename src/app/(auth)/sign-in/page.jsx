@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner"
+import { useGlobalAuthContext } from "@/app/(context)/AuthProvider";
 
 
 const SignIn = () => {
 
     // hooks
     const router = useRouter();
+    const { setUserData } = useGlobalAuthContext();
 
     // handle sign in function
     const handleSignIn = e => {
@@ -23,6 +25,7 @@ const SignIn = () => {
         axios.post("/api/users/signin", signInInfo)
             .then(res => {
                 if (res.data.success) {
+                    setUserData(res.data.userData)
                     toast(res.data.message)
                     router.push("/")
                 }

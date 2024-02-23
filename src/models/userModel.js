@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
         required: [true, "Please provide a username"],
         unique: true,
     },
+    userImage: {
+        type: String,
+        required: [true, "Please choose a profile picture"],
+    },
     // isVerified: {
     //     type: boolean,
     //     default: false,

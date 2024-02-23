@@ -1,7 +1,8 @@
 import { connect } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel"
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import bcryptjs from "bcryptjs";
 
 // connect to the database
 connect();
@@ -17,10 +18,28 @@ export async function POST(request) {
             return NextResponse.json({ error: "User doesn't exist" }, { status: 401 })
         }
 
-        console.log("Sign in user exists:", true);
-        if (password === existingUser.password) {
+        console.log("use exists:", existingUser);
 
-            // create token data
+
+        // check encrypted valid password
+        const validPassword = await bcryptjs.compare(password, existingUser.password)
+        if(!validPassword){
+            return NextResponse.json({error: "Invalid password"}, {status: 400})
+        }
+
+
+
+        // get the necessary existing user data
+        const userData = {
+            email: existingUser.email,
+            id: existingUser._id,
+            name: existingUser.name,
+            image: existingUser.userImage,
+            userName: existingUser.userName
+        }
+
+
+        // create token data
             const tokenData = {
                 id: existingUser?._id,
                 userName: existingUser?.userName,
@@ -33,15 +52,12 @@ export async function POST(request) {
             // send the response to the front end
             const response = NextResponse.json({
                 message: 'Sign in successful!',
-                success: true
+                success: true,
+                userData,
             })
             // set the token to browser cookies
             response.cookies.set("token", token, { httpOnly: true })
             return response;
-        }
-        else {
-            return NextResponse.json({ message: 'Check your email or password!', success: false })
-        }
     }
     catch (error) {
         return NextResponse.json({ error: error }, { status: 500 })
