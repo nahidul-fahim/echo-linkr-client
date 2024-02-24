@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
 import axios from 'axios';
 import { toast } from "sonner"
+import { signOut } from "next-auth/react";
 
 
 const Navbar = () => {
@@ -58,8 +59,10 @@ const Navbar = () => {
                         links.map(link => <NavLink key={link.title} item={link} />)
                     }
                 </div>
+
+                {/* sign out button */}
                 <div>
-                    <Button onClick={handleSignOut}
+                    <Button onClick={() => signOut()}
                         className="flex justify-center items-center gap-2" variant="default">Sign out <LogOut size={20} />
                     </Button>
                 </div>

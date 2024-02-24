@@ -19,7 +19,10 @@ export async function POST(request) {
         // if user already exists in the database, send an error message
         if (existingUser) {
             console.log("User already exists in the database pe po pe po")
-            return NextResponse.json({ error: 'User already exists' }, { status: 400 })
+            return NextResponse.json({
+                status: 400,
+                message: 'User already exists',
+            })
         }
 
 

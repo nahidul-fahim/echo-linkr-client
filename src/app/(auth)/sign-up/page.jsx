@@ -19,6 +19,7 @@ const SignUp = () => {
     const router = useRouter();
     const [selectedImageName, setSelectedImageName] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
+    const [error, setError] = useState(null);
 
 
     // image input and get the file name
@@ -42,6 +43,18 @@ const SignUp = () => {
     const handleSignUp = e => {
         e.preventDefault();
         const form = e.target;
+        // get data from the form
+        const name = form.name.value;
+        const email = form.email.value;
+        const userName = form.userName.value;
+        const password = form.password.value;
+        const userType = "user";
+
+        // password validation
+        if (password.length < 6) {
+            setError("Password must be at least 6 characters long")
+            return;
+        }
 
         // if the profile image is selected, host the image
         if (selectedImage) {
@@ -54,20 +67,20 @@ const SignUp = () => {
                     // if the image is hosted successfully, grab the data from form
                     if (res.data) {
                         const userImage = res.data.data.display_url;
-                        // get data from the form
-                        const name = form.name.value;
-                        const email = form.email.value;
-                        const userName = form.userName.value;
-                        const password = form.password.value;
-                        const userType = "user";
                         const newUserInfo = { name, email, userName, userImage, userType, password };
 
                         // send the data to backend
                         axios.post("/api/users/signup", newUserInfo)
                             .then(res => {
-                                if (res.data.success) {
+                                console.log(res.data)
+                                const isSuccess = res.data.success;
+                                if (isSuccess) {
+                                    setError(null)
                                     toast(res.data.message)
                                     router.push("/sign-in")
+                                }
+                                if (res.data.status === 400) {
+                                    setError(res.data.message)
                                 }
                             })
                             // error from backend
@@ -93,16 +106,16 @@ const SignUp = () => {
                 <form onSubmit={handleSignUp}
                     className="w-full flex flex-col justify-center items-center gap-5">
                     {/* Full name */}
-                    <input type="text" name="name" id="name" placeholder="Full name" className="border-[1px] px-4 py-2 rounded focus:outline-none focus:border-lightBlack w-2/3" />
+                    <input required type="text" name="name" id="name" placeholder="Full name" className="border-[1px] px-4 py-2 rounded focus:outline-none focus:border-lightBlack w-2/3" />
 
                     {/* Email */}
-                    <input type="email" name="email" id="email" placeholder="Email address" className="border-[1px] px-4 py-2 rounded focus:outline-none focus:border-lightBlack w-2/3" />
+                    <input required type="email" name="email" id="email" placeholder="Email address" className="border-[1px] px-4 py-2 rounded focus:outline-none focus:border-lightBlack w-2/3" />
 
                     {/* Username */}
-                    <input type="text" name="userName" id="userName" placeholder="User name" className="border-[1px] px-4 py-2 rounded focus:outline-none focus:border-lightBlack w-2/3" />
+                    <input required type="text" name="userName" id="userName" placeholder="User name" className="border-[1px] px-4 py-2 rounded focus:outline-none focus:border-lightBlack w-2/3" />
 
                     {/* Password */}
-                    <input type="password" name="password" id="password" placeholder="Password" className="border-[1px] px-4 py-2 rounded focus:outline-none focus:border-lightBlack w-2/3" />
+                    <input required type="password" name="password" id="password" placeholder="Password" className="border-[1px] px-4 py-2 rounded focus:outline-none focus:border-lightBlack w-2/3" />
 
                     {/* image file input */}
                     <label
@@ -121,6 +134,9 @@ const SignUp = () => {
 
                     {/* Submit button */}
                     <input type="submit" value={"Sign Up"} className="bg-foreground text-background font-medium hover:bg-background hover:text-foreground duration-500 border-[1px] border-transparent px-4 py-2 rounded focus:outline-none hover:border-lightBlack cursor-pointer w-2/3" />
+
+                    {/* Error message */}
+                    <p className="text-left text-[red] text-[14px] font-medium">{error && error}</p>
                 </form>
 
                 <div className="flex justify-center items-center gap-2 text-lightBlack">

@@ -1,11 +1,11 @@
 'use client'
 
-import { useGlobalAuthContext } from "@/app/(context)/AuthProvider";
+import { useSession } from "next-auth/react";
 
 const Sidebar = () => {
 
     // hooks
-    const { userData } = useGlobalAuthContext();
+    const { data: userData } = useSession();
 
     console.log(userData);
 
@@ -13,7 +13,7 @@ const Sidebar = () => {
 
     return (
         <div>
-            <p>Sidebar data: {userData.name}</p>
+            <p>Sidebar data</p>
         </div>
     );
 };

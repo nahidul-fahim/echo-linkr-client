@@ -2,8 +2,8 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import { Toaster } from "@/components/ui/sonner";
-import { AuthProvider } from "./(context)/AuthProvider";
 import Sidebar from "@/components/sidebar/sidebar";
+import { AuthProvider } from "./(context)/Provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
